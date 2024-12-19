@@ -1,95 +1,97 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// 최고은/60231190/기초웹 과제 #4
 
-export default function Home() {
+"use client";
+import React, { useState, useRef, useCallback } from "react";
+import ShoppingTemplate from "./components/ShoppingTemplate";
+import ShoppingInsert from "./components/ShoppingInsert";
+import ShoppingList from "./components/ShoppingList";
+
+export default function Page() {
+  const [items, setItems] = useState([
+    {
+      id: 1,
+      text: "오렌지 주스",
+      price: 2500,
+      quantity: 2,
+    },
+    {
+      id: 2,
+      text: "플레인 요거트",
+      price: 3500,
+      quantity: 1,
+    },
+    {
+      id: 3,
+      text: "시리얼",
+      price: 5000,
+      quantity: 1,
+    },
+  ]);
+
+  const nextId = useRef(4);
+
+  const onInsert = useCallback((text, price, quantity) => {
+    const item = {
+      id: nextId.current,
+      text,
+      checked: false,
+      price: price || 0,
+      quantity: quantity || 0,
+    };
+    setItems((prevItems) => prevItems.concat(item));
+    nextId.current += 1;
+  }, []);
+
+  const onRemove = useCallback(
+    (id) => {
+      setItems(items.filter((item) => item.id !== id));
+    },
+    [items]
+  );
+
+  const onToggle = useCallback(
+    (id) => {
+      setItems(
+        items.map((item) =>
+          item.id === id ? { ...item, checked: !item.checked } : item
+        )
+      );
+    },
+    [items]
+  );
+
+  const onUpdate = useCallback(
+    (id, newPrice, newQuantity) => {
+      setItems(
+        items.map((item) =>
+          item.id === id
+            ? { ...item, price: newPrice, quantity: newQuantity }
+            : item
+        )
+      );
+    },
+    [items]
+  );
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <ShoppingTemplate>
+      <ShoppingInsert onInsert={onInsert} />
+      <ShoppingList
+        items={items}
+        onRemove={onRemove}
+        onToggle={onToggle}
+        onUpdate={onUpdate}
+      />
+      <div
+        style={{
+          marginTop: "25px",
+          textAlign: "center",
+          color: "#666",
+          fontSize: "14px",
+        }}
+      >
+        최고은/60231190/기초웹 과제 #4
+      </div>
+    </ShoppingTemplate>
   );
 }

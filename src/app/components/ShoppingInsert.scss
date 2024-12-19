@@ -1,0 +1,28 @@
+.ShoppingInsert {
+  display: flex;
+
+  input {
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgb(180, 180, 180);
+    padding: 10px;
+    font-size: 14px;
+    flex: 1;
+  }
+
+  button {
+    background-color: rgb(152, 183, 255);
+    outline: none;
+    border: none;
+    padding: 0px 10px;
+    font-size: 22px;
+    color: white;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s background ease-in-out;
+    &:hover {
+      background: rgb(126, 165, 255);
+    }
+  }
+}

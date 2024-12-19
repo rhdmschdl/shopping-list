@@ -1,0 +1,11 @@
+.ShoppingList {
+  min-height: 370px;
+  overflow-y: auto;
+
+  .total {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-left: 15px;
+    color: rgb(59, 59, 59);
+  }
+}
